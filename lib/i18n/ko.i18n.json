@@ -646,7 +646,15 @@
     "autoScrollPause": "자동 스크롤 일시정지",
     "hueShort": "H",
     "saturationShort": "S",
-    "valueShort": "V"
+    "valueShort": "V",
+    "red": "",
+    "green": "",
+    "blue": "",
+    "redShort": "",
+    "greenShort": "",
+    "blueShort": "",
+    "colorModeHsv": "",
+    "colorModeRgb": ""
   },
   "tooltips": {
     "shufflePlay": "무작위 재생",

@@ -1909,6 +1909,30 @@ class Translations$accessibility$en {
 
 	/// en: 'V'
 	String get valueShort => 'V';
+
+	/// en: 'Red'
+	String get red => 'Red';
+
+	/// en: 'Green'
+	String get green => 'Green';
+
+	/// en: 'Blue'
+	String get blue => 'Blue';
+
+	/// en: 'R'
+	String get redShort => 'R';
+
+	/// en: 'G'
+	String get greenShort => 'G';
+
+	/// en: 'B'
+	String get blueShort => 'B';
+
+	/// en: 'HSV'
+	String get colorModeHsv => 'HSV';
+
+	/// en: 'RGB'
+	String get colorModeRgb => 'RGB';
 }
 
 // Path: tooltips
@@ -7613,6 +7637,14 @@ extension on Translations {
 			'accessibility.hueShort' => 'H',
 			'accessibility.saturationShort' => 'S',
 			'accessibility.valueShort' => 'V',
+			'accessibility.red' => 'Red',
+			'accessibility.green' => 'Green',
+			'accessibility.blue' => 'Blue',
+			'accessibility.redShort' => 'R',
+			'accessibility.greenShort' => 'G',
+			'accessibility.blueShort' => 'B',
+			'accessibility.colorModeHsv' => 'HSV',
+			'accessibility.colorModeRgb' => 'RGB',
 			'tooltips.shufflePlay' => 'Shuffle play',
 			'tooltips.playTrailer' => 'Play trailer',
 			'tooltips.markAsWatched' => 'Mark as watched',
@@ -8016,6 +8048,8 @@ extension on Translations {
 			'libraries.content' => 'library content',
 			'libraries.selectLibrary' => 'Select library',
 			'libraries.filtersWithCount' => ({required Object count}) => 'Filters (${count})',
+			_ => null,
+		} ?? switch (path) {
 			'libraries.noRecommendations' => 'No recommendations available',
 			'libraries.noCollections' => 'No collections in this library',
 			'libraries.noFoldersFound' => 'No folders found',
@@ -8024,8 +8058,6 @@ extension on Translations {
 			'libraries.tabs.browse' => 'Browse',
 			'libraries.tabs.collections' => 'Collections',
 			'libraries.tabs.playlists' => 'Playlists',
-			_ => null,
-		} ?? switch (path) {
 			'libraries.groupings.title' => 'Grouping',
 			'libraries.groupings.all' => 'All',
 			'libraries.groupings.movies' => 'Movies',
@@ -8530,6 +8562,8 @@ extension on Translations {
 			'downloads.deletingWithProgress' => ({required Object title, required Object current, required Object total}) => 'Deleting ${title}... (${current} of ${total})',
 			'downloads.queuedTooltip' => 'Queued',
 			'downloads.queuedFilesTooltip' => ({required Object files}) => 'Queued ${files}',
+			_ => null,
+		} ?? switch (path) {
 			'downloads.downloadingTooltip' => 'Downloading...',
 			'downloads.downloadingFilesTooltip' => ({required Object files}) => 'Downloading ${files}',
 			'downloads.noDownloadsTree' => 'No downloads',
@@ -8538,8 +8572,6 @@ extension on Translations {
 			'downloads.deleteAll' => 'Delete all',
 			'downloads.selectVersion' => 'Select Version',
 			'downloads.allEpisodes' => 'All episodes',
-			_ => null,
-		} ?? switch (path) {
 			'downloads.unwatchedOnly' => 'Unwatched only',
 			'downloads.nextNUnwatched' => ({required Object count}) => 'Next ${count} unwatched',
 			'downloads.customAmount' => 'Custom amount...',

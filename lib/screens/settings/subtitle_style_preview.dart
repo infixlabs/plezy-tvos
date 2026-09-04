@@ -13,13 +13,19 @@ import 'settings_utils.dart';
 /// mpv relative to a 720-high window, so both are scaled by this widget's own
 /// height to keep the sample proportionate to what plays back.
 class SubtitleStylePreview extends StatelessWidget {
-  const SubtitleStylePreview({super.key, this.height = defaultHeight});
+  const SubtitleStylePreview({super.key, this.height = defaultHeight, this.padding = _defaultPadding});
 
-  /// Tall enough to judge outline weight and background opacity, short enough
-  /// that pinning it still leaves the options below it readable on a phone.
-  static const double defaultHeight = 180;
+  static const EdgeInsets _defaultPadding = EdgeInsets.fromLTRB(16, 8, 16, 12);
+
+  /// Tall enough to judge outline weight and background opacity, small enough
+  /// to sit in a corner without burying the control being adjusted.
+  static const double defaultHeight = 160;
 
   final double height;
+
+  /// Zero when the caller draws its own frame around the sample — an outer
+  /// shadow has to hug the visible box, not the padding around it.
+  final EdgeInsets padding;
 
   /// mpv sizes `sub-font-size` and `sub-border-size` against a 720-high window.
   static const double _referenceHeight = 720;
@@ -60,12 +66,12 @@ class SubtitleStylePreview extends StatelessWidget {
         return SizedBox(
           height: height,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            padding: padding,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              // Height-driven rather than width-driven: the preview is pinned, so
-              // its height is the scarce dimension and the 16:9 frame is sized
-              // from it instead of from the page width.
+              // Height-driven rather than width-driven: floating in a corner,
+              // height is the scarce dimension and the 16:9 frame is sized from
+              // it instead of from the page width.
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: LayoutBuilder(
@@ -101,34 +107,6 @@ class SubtitleStylePreview extends StatelessWidget {
       },
     );
   }
-}
-
-/// Keeps the preview on screen while the options that change it scroll past.
-/// Judging a colour or an outline against a sample you have scrolled away from
-/// is exactly the problem the preview exists to remove.
-class SubtitleStylePreviewHeader extends SliverPersistentHeaderDelegate {
-  const SubtitleStylePreviewHeader({this.height = SubtitleStylePreview.defaultHeight});
-
-  final double height;
-
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // Opaque: rows scroll underneath, and a translucent header would let their
-    // text read as part of the sample.
-    return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: SubtitleStylePreview(height: height),
-    );
-  }
-
-  @override
-  bool shouldRebuild(SubtitleStylePreviewHeader oldDelegate) => oldDelegate.height != height;
 }
 
 /// Stands in for video. Deliberately not flat: a subtitle that disappears over
@@ -214,6 +192,58 @@ class _SampleLine extends StatelessWidget {
               style: _base.copyWith(color: textColor),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Floats the preview above everything on the styling screen, including the
+/// dialogs the colour and size tiles open.
+///
+/// It lives in the root [Overlay] rather than in the page's own tree for
+/// exactly that reason: a dialog is a route of its own, so anything inside the
+/// page is painted underneath it, and the sample would be hidden at the one
+/// moment it is needed — while a colour or a size is actually being changed.
+class SubtitleStylePreviewOverlay {
+  SubtitleStylePreviewOverlay._(this._entry);
+
+  final OverlayEntry _entry;
+
+  /// Inserts the overlay. Call from a post-frame callback so the root overlay
+  /// exists, and keep the handle to [remove] it when the screen goes away.
+  static SubtitleStylePreviewOverlay? insert(BuildContext context) {
+    final overlay = Overlay.maybeOf(context, rootOverlay: true);
+    if (overlay == null) return null;
+    final entry = OverlayEntry(builder: (context) => const _FloatingPreview());
+    overlay.insert(entry);
+    return SubtitleStylePreviewOverlay._(entry);
+  }
+
+  void remove() => _entry.remove();
+}
+
+class _FloatingPreview extends StatelessWidget {
+  const _FloatingPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    final insets = MediaQuery.paddingOf(context);
+    return Positioned(
+      right: insets.right + 24,
+      bottom: insets.bottom + 24,
+      // Never a hit target: it sits over real controls, and a dialog behind it
+      // must stay operable.
+      child: IgnorePointer(
+        child: Opacity(
+          opacity: 0.92,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(14)),
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.4), blurRadius: 16)],
+            ),
+            child: const SubtitleStylePreview(padding: EdgeInsets.zero),
+          ),
         ),
       ),
     );

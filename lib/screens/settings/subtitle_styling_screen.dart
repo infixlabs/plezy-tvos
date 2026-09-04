@@ -11,8 +11,32 @@ import '../../widgets/settings_section.dart';
 import 'settings_utils.dart';
 import 'subtitle_style_preview.dart';
 
-class SubtitleStylingScreen extends StatelessWidget {
+class SubtitleStylingScreen extends StatefulWidget {
   const SubtitleStylingScreen({super.key});
+
+  @override
+  State<SubtitleStylingScreen> createState() => _SubtitleStylingScreenState();
+}
+
+class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
+  SubtitleStylePreviewOverlay? _preview;
+
+  @override
+  void initState() {
+    super.initState();
+    // After the first frame: the root overlay this inserts into is an ancestor
+    // that does not exist yet while initState runs.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _preview = SubtitleStylePreviewOverlay.insert(context);
+    });
+  }
+
+  @override
+  void dispose() {
+    _preview?.remove();
+    _preview = null;
+    super.dispose();
+  }
 
   String _assOverrideLabel(SubAssOverride value) {
     return switch (value) {
@@ -46,141 +70,134 @@ class SubtitleStylingScreen extends StatelessWidget {
     // Anchor-to-screen is an ExoPlayer text-subtitle knob; mpv already places
     // plaintext subtitles in the letterbox margins by default.
     final exoActive = Platform.isAndroid && SettingsService.instance.read(SettingsService.useExoPlayer);
-    return SettingsPage.slivers(
+    return SettingsPage(
       title: Text(t.screens.subtitleStyling),
-      slivers: [
-        const SliverPersistentHeader(pinned: true, delegate: SubtitleStylePreviewHeader()),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            SettingsGroup(
-              title: t.subtitlingStyling.text,
-              children: [
-                SettingSelectionTile<SubAssOverride>(
-                  pref: SettingsService.subAssOverride,
-                  icon: Symbols.subtitles_rounded,
-                  title: t.subtitlingStyling.assOverride,
-                  subtitleBuilder: _assOverrideLabel,
-                  options: SubAssOverride.values
-                      .map((v) => DialogOption(value: v, title: _assOverrideLabel(v)))
-                      .toList(),
-                ),
-                // iOS/tvOS avfoundation VO: screen vs video-resolution basis.
-                if (Platform.isIOS)
-                  SettingSelectionTile<SubtitleRenderResolution>(
-                    pref: SettingsService.subtitleRenderResolution,
-                    icon: Symbols.aspect_ratio_rounded,
-                    title: t.subtitlingStyling.renderResolution,
-                    subtitleBuilder: _renderResolutionLabel,
-                    options: const [
-                      SubtitleRenderResolution.screen,
-                      SubtitleRenderResolution.video,
-                    ].map((v) => DialogOption(value: v, title: _renderResolutionLabel(v))).toList(),
-                  ),
-                // Android libass overlay: full or a fractional render scale (perf knob for
-                // render-bound low-end TVs; heavy/animated signs raster faster at < 1).
-                if (Platform.isAndroid)
-                  SettingSelectionTile<SubtitleRenderResolution>(
-                    pref: SettingsService.subtitleRenderResolution,
-                    icon: Symbols.aspect_ratio_rounded,
-                    title: t.subtitlingStyling.renderResolution,
-                    subtitleBuilder: _renderResolutionLabel,
-                    options: const [
-                      SubtitleRenderResolution.screen,
-                      SubtitleRenderResolution.threeQuarter,
-                      SubtitleRenderResolution.half,
-                      SubtitleRenderResolution.third,
-                      SubtitleRenderResolution.quarter,
-                    ].map((v) => DialogOption(value: v, title: _renderResolutionLabel(v))).toList(),
-                  ),
-                SettingNumberTile(
-                  pref: SettingsService.subtitleFontSize,
-                  icon: Symbols.format_size_rounded,
-                  title: t.subtitlingStyling.fontSize,
-                  subtitleBuilder: (v) => '$v',
-                  labelText: t.subtitlingStyling.fontSize,
-                  suffixText: '',
-                  min: 10,
-                  max: 80,
-                ),
-                SettingColorTile(
-                  pref: SettingsService.subtitleTextColor,
-                  icon: Symbols.format_color_text_rounded,
-                  title: t.subtitlingStyling.textColor,
-                ),
-                SettingNumberTile(
-                  pref: SettingsService.subtitlePosition,
-                  icon: Symbols.vertical_align_bottom_rounded,
-                  title: t.subtitlingStyling.position,
-                  subtitleBuilder: _formatPosition,
-                  labelText: t.subtitlingStyling.position,
-                  suffixText: '%',
-                  min: 0,
-                  max: 100,
-                ),
-                if (exoActive)
-                  SettingSwitchTile(
-                    pref: SettingsService.subtitleAnchorToScreen,
-                    icon: Symbols.fit_screen_rounded,
-                    title: t.subtitlingStyling.anchorToScreen,
-                    subtitle: t.subtitlingStyling.anchorToScreenDescription,
-                  ),
-                SettingSwitchTile(
-                  pref: SettingsService.subtitleBold,
-                  icon: Symbols.format_bold_rounded,
-                  title: t.subtitlingStyling.bold,
-                ),
-                SettingSwitchTile(
-                  pref: SettingsService.subtitleItalic,
-                  icon: Symbols.format_italic_rounded,
-                  title: t.subtitlingStyling.italic,
-                ),
-              ],
+      children: [
+        SettingsGroup(
+          title: t.subtitlingStyling.text,
+          children: [
+            SettingSelectionTile<SubAssOverride>(
+              pref: SettingsService.subAssOverride,
+              icon: Symbols.subtitles_rounded,
+              title: t.subtitlingStyling.assOverride,
+              subtitleBuilder: _assOverrideLabel,
+              options: SubAssOverride.values.map((v) => DialogOption(value: v, title: _assOverrideLabel(v))).toList(),
             ),
-
-            SettingsGroup(
-              title: t.subtitlingStyling.border,
-              children: [
-                SettingNumberTile(
-                  pref: SettingsService.subtitleBorderSize,
-                  icon: Symbols.border_style_rounded,
-                  title: t.subtitlingStyling.borderSize,
-                  subtitleBuilder: (v) => '$v',
-                  labelText: t.subtitlingStyling.borderSize,
-                  suffixText: '',
-                  min: 0,
-                  max: 5,
-                ),
-                SettingColorTile(
-                  pref: SettingsService.subtitleBorderColor,
-                  icon: Symbols.border_color_rounded,
-                  title: t.subtitlingStyling.borderColor,
-                ),
-              ],
+            // iOS/tvOS avfoundation VO: screen vs video-resolution basis.
+            if (Platform.isIOS)
+              SettingSelectionTile<SubtitleRenderResolution>(
+                pref: SettingsService.subtitleRenderResolution,
+                icon: Symbols.aspect_ratio_rounded,
+                title: t.subtitlingStyling.renderResolution,
+                subtitleBuilder: _renderResolutionLabel,
+                options: const [
+                  SubtitleRenderResolution.screen,
+                  SubtitleRenderResolution.video,
+                ].map((v) => DialogOption(value: v, title: _renderResolutionLabel(v))).toList(),
+              ),
+            // Android libass overlay: full or a fractional render scale (perf knob for
+            // render-bound low-end TVs; heavy/animated signs raster faster at < 1).
+            if (Platform.isAndroid)
+              SettingSelectionTile<SubtitleRenderResolution>(
+                pref: SettingsService.subtitleRenderResolution,
+                icon: Symbols.aspect_ratio_rounded,
+                title: t.subtitlingStyling.renderResolution,
+                subtitleBuilder: _renderResolutionLabel,
+                options: const [
+                  SubtitleRenderResolution.screen,
+                  SubtitleRenderResolution.threeQuarter,
+                  SubtitleRenderResolution.half,
+                  SubtitleRenderResolution.third,
+                  SubtitleRenderResolution.quarter,
+                ].map((v) => DialogOption(value: v, title: _renderResolutionLabel(v))).toList(),
+              ),
+            SettingNumberTile(
+              pref: SettingsService.subtitleFontSize,
+              icon: Symbols.format_size_rounded,
+              title: t.subtitlingStyling.fontSize,
+              subtitleBuilder: (v) => '$v',
+              labelText: t.subtitlingStyling.fontSize,
+              suffixText: '',
+              min: 10,
+              max: 80,
             ),
-
-            SettingsGroup(
-              title: t.subtitlingStyling.background,
-              children: [
-                SettingNumberTile(
-                  pref: SettingsService.subtitleBackgroundOpacity,
-                  icon: Symbols.opacity_rounded,
-                  title: t.subtitlingStyling.backgroundOpacity,
-                  subtitleBuilder: (v) => '$v%',
-                  labelText: t.subtitlingStyling.backgroundOpacity,
-                  suffixText: '%',
-                  min: 0,
-                  max: 100,
-                ),
-                SettingColorTile(
-                  pref: SettingsService.subtitleBackgroundColor,
-                  icon: Symbols.format_color_fill_rounded,
-                  title: t.subtitlingStyling.backgroundColor,
-                ),
-              ],
+            SettingColorTile(
+              pref: SettingsService.subtitleTextColor,
+              icon: Symbols.format_color_text_rounded,
+              title: t.subtitlingStyling.textColor,
             ),
-            const SizedBox(height: 24),
-          ]),
+            SettingNumberTile(
+              pref: SettingsService.subtitlePosition,
+              icon: Symbols.vertical_align_bottom_rounded,
+              title: t.subtitlingStyling.position,
+              subtitleBuilder: _formatPosition,
+              labelText: t.subtitlingStyling.position,
+              suffixText: '%',
+              min: 0,
+              max: 100,
+            ),
+            if (exoActive)
+              SettingSwitchTile(
+                pref: SettingsService.subtitleAnchorToScreen,
+                icon: Symbols.fit_screen_rounded,
+                title: t.subtitlingStyling.anchorToScreen,
+                subtitle: t.subtitlingStyling.anchorToScreenDescription,
+              ),
+            SettingSwitchTile(
+              pref: SettingsService.subtitleBold,
+              icon: Symbols.format_bold_rounded,
+              title: t.subtitlingStyling.bold,
+            ),
+            SettingSwitchTile(
+              pref: SettingsService.subtitleItalic,
+              icon: Symbols.format_italic_rounded,
+              title: t.subtitlingStyling.italic,
+            ),
+          ],
         ),
+
+        SettingsGroup(
+          title: t.subtitlingStyling.border,
+          children: [
+            SettingNumberTile(
+              pref: SettingsService.subtitleBorderSize,
+              icon: Symbols.border_style_rounded,
+              title: t.subtitlingStyling.borderSize,
+              subtitleBuilder: (v) => '$v',
+              labelText: t.subtitlingStyling.borderSize,
+              suffixText: '',
+              min: 0,
+              max: 5,
+            ),
+            SettingColorTile(
+              pref: SettingsService.subtitleBorderColor,
+              icon: Symbols.border_color_rounded,
+              title: t.subtitlingStyling.borderColor,
+            ),
+          ],
+        ),
+
+        SettingsGroup(
+          title: t.subtitlingStyling.background,
+          children: [
+            SettingNumberTile(
+              pref: SettingsService.subtitleBackgroundOpacity,
+              icon: Symbols.opacity_rounded,
+              title: t.subtitlingStyling.backgroundOpacity,
+              subtitleBuilder: (v) => '$v%',
+              labelText: t.subtitlingStyling.backgroundOpacity,
+              suffixText: '%',
+              min: 0,
+              max: 100,
+            ),
+            SettingColorTile(
+              pref: SettingsService.subtitleBackgroundColor,
+              icon: Symbols.format_color_fill_rounded,
+              title: t.subtitlingStyling.backgroundColor,
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
       ],
     );
   }
