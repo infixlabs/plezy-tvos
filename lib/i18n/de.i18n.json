@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Musikqualität",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Untertitel-Stil",
     "subtitleStylingDescription": "Aussehen von Untertiteln anpassen",
     "smallSkipDuration": "Kleines Sprungintervall",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Keine Audiogeräte verfügbar",
     "searchSubtitles": "Untertitel suchen",
     "language": "Sprache",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Keine Untertitel gefunden",
     "subtitleDownloaded": "Untertitel heruntergeladen",
     "subtitleDownloadedNotApplied": "Der Untertitel wurde heruntergeladen, konnte aber nicht ausgewählt werden",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Für das aktive Profil ist kein Server verfügbar"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Text",
     "border": "Rahmen",
     "background": "Hintergrund",

@@ -9,6 +9,7 @@ import '../../widgets/setting_tile.dart';
 import '../../widgets/settings_page.dart';
 import '../../widgets/settings_section.dart';
 import 'settings_utils.dart';
+import 'subtitle_style_preview.dart';
 
 class SubtitleStylingScreen extends StatelessWidget {
   const SubtitleStylingScreen({super.key});
@@ -48,6 +49,7 @@ class SubtitleStylingScreen extends StatelessWidget {
     return SettingsPage(
       title: Text(t.screens.subtitleStyling),
       children: [
+        const SubtitleStylePreview(),
         SettingsGroup(
           title: t.subtitlingStyling.text,
           children: [

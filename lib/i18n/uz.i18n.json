@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Musiqa sifati",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Subtitr sozlamalari",
     "subtitleStylingDescription": "Subtitrlar koʻrinishini moslashtiring",
     "smallSkipDuration": "Kichik oʻtkazish vaqti",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Mavjud audio qurilmalar yoʻq",
     "searchSubtitles": "Subtitr qidirish",
     "language": "Til",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Subtitr topilmadi",
     "subtitleDownloaded": "Subtitr yuklab olindi",
     "subtitleDownloadedNotApplied": "Subtitr yuklab olindi, lekin qoʻllanilmadi",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Faol profil uchun hech qanday server mavjud emas"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Matn",
     "border": "Hoshiya",
     "background": "Fon",

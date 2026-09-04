@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Musikkvalitet",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Undertekststil",
     "subtitleStylingDescription": "Tilpas underteksters udseende",
     "smallSkipDuration": "Kort spring",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Ingen lydenheder tilgængelige",
     "searchSubtitles": "Søg undertekster",
     "language": "Sprog",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Ingen undertekster fundet",
     "subtitleDownloaded": "Undertekst downloadet",
     "subtitleDownloadedNotApplied": "Underteksten blev downloadet, men kunne ikke vælges",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Ingen server er tilgængelig for den aktive profil"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Tekst",
     "border": "Kant",
     "background": "Baggrund",

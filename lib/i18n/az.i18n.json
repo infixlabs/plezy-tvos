@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Musiqi keyfiyyəti",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Altyazı tənzimləmələri",
     "subtitleStylingDescription": "Altyazı görünüşünü özünüləşdirin",
     "smallSkipDuration": "Kiçik ötürmə müddəti",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Səs cihazları əlçatan deyil",
     "searchSubtitles": "Altyazı axtar",
     "language": "Dil",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Altyazı tapılmadı",
     "subtitleDownloaded": "Altyazı yükləndi",
     "subtitleDownloadedNotApplied": "Altyazı yükləndi, lakin seçilə bilmədi",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Aktiv profil üçün heç bir server mövcud deyil"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Mətn",
     "border": "Haşiyə",
     "background": "Arxa fon",

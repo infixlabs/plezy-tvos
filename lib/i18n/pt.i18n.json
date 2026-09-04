@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Qualidade da música",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Estilo de Legendas",
     "subtitleStylingDescription": "Personalizar aparência das legendas",
     "smallSkipDuration": "Duração do Avanço Curto",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Nenhum dispositivo de áudio disponível",
     "searchSubtitles": "Pesquisar legendas",
     "language": "Idioma",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Nenhuma legenda encontrada",
     "subtitleDownloaded": "Legenda baixada",
     "subtitleDownloadedNotApplied": "A legenda foi baixada, mas não foi possível selecioná-la",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Nenhum servidor está disponível para o perfil ativo"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Texto",
     "border": "Borda",
     "background": "Fundo",

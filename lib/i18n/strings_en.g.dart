@@ -642,6 +642,24 @@ class Translations$settings$en {
 	/// en: 'Music Quality'
 	String get musicQualityTitle => 'Music Quality';
 
+	/// en: 'Always Show Subtitles'
+	String get forceSubtitles => 'Always Show Subtitles';
+
+	/// en: 'Turn subtitles on even when the server selects none'
+	String get forceSubtitlesDescription => 'Turn subtitles on even when the server selects none';
+
+	/// en: 'Preferred Subtitle Language'
+	String get preferredSubtitleLanguage => 'Preferred Subtitle Language';
+
+	/// en: 'Not set'
+	String get preferredSubtitleLanguageNotSet => 'Not set';
+
+	/// en: 'Auto-Download Subtitles'
+	String get autoDownloadSubtitles => 'Auto-Download Subtitles';
+
+	/// en: 'Fetch a subtitle from your Plex server's providers when the item has none in your language'
+	String get autoDownloadSubtitlesDescription => 'Fetch a subtitle from your Plex server\'s providers when the item has none in your language';
+
 	/// en: 'Subtitle Styling'
 	String get subtitleStyling => 'Subtitle Styling';
 
@@ -2140,6 +2158,9 @@ class Translations$videoControls$en {
 	/// en: 'Language'
 	String get language => 'Language';
 
+	/// en: 'Fetching subtitles…'
+	String get fetchingSubtitles => 'Fetching subtitles…';
+
 	/// en: 'No subtitles found'
 	String get noSubtitlesFound => 'No subtitles found';
 
@@ -2385,6 +2406,9 @@ class Translations$subtitlingStyling$en {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+
+	/// en: 'The quick brown fox jumps over the lazy dog'
+	String get previewSample => 'The quick brown fox jumps over the lazy dog';
 
 	/// en: 'Text'
 	String get text => 'Text';
@@ -7161,6 +7185,12 @@ extension on Translations {
 			'settings.directPlayCoveredQuality' => 'Play Smaller Videos at Original Quality',
 			'settings.directPlayCoveredQualityDescription' => 'Direct play videos already within the quality limit instead of transcoding them',
 			'settings.musicQualityTitle' => 'Music Quality',
+			'settings.forceSubtitles' => 'Always Show Subtitles',
+			'settings.forceSubtitlesDescription' => 'Turn subtitles on even when the server selects none',
+			'settings.preferredSubtitleLanguage' => 'Preferred Subtitle Language',
+			'settings.preferredSubtitleLanguageNotSet' => 'Not set',
+			'settings.autoDownloadSubtitles' => 'Auto-Download Subtitles',
+			'settings.autoDownloadSubtitlesDescription' => 'Fetch a subtitle from your Plex server\'s providers when the item has none in your language',
 			'settings.subtitleStyling' => 'Subtitle Styling',
 			'settings.subtitleStylingDescription' => 'Customize subtitle appearance',
 			'settings.smallSkipDuration' => 'Small Skip Duration',
@@ -7480,14 +7510,14 @@ extension on Translations {
 			'fileInfo.totalSize' => 'Total Size',
 			'fileInfo.container' => 'Container',
 			'fileInfo.duration' => 'Duration',
+			_ => null,
+		} ?? switch (path) {
 			'fileInfo.previewThumbnails' => 'Preview Thumbnails',
 			'fileInfo.previewIndex' => 'Preview Index',
 			'fileInfo.packetLength' => 'Packet Length',
 			'fileInfo.filePresent' => 'File Present',
 			'fileInfo.fileReadable' => 'Readable by Server',
 			'fileInfo.streamPath' => 'Stream Path',
-			_ => null,
-		} ?? switch (path) {
 			'fileInfo.optimizedForStreaming' => 'Optimized for Streaming',
 			'fileInfo.has64bitOffsets' => '64-bit Offsets',
 			'fileInfo.protocol' => 'Protocol',
@@ -7664,6 +7694,7 @@ extension on Translations {
 			'videoControls.noAudioDevicesAvailable' => 'No audio devices available',
 			'videoControls.searchSubtitles' => 'Search Subtitles',
 			'videoControls.language' => 'Language',
+			'videoControls.fetchingSubtitles' => 'Fetching subtitles…',
 			'videoControls.noSubtitlesFound' => 'No subtitles found',
 			'videoControls.subtitleDownloaded' => 'Subtitle downloaded',
 			'videoControls.subtitleDownloadedNotApplied' => 'Subtitle downloaded, but it could not be selected',
@@ -7739,6 +7770,7 @@ extension on Translations {
 			'messages.streamSelectionUnavailable' => 'Stream selection is not available for this source',
 			'messages.streamSelectionFailed' => 'Could not apply the selected streams',
 			'messages.serverUnavailableForProfile' => 'No server is available for the active profile',
+			'subtitlingStyling.previewSample' => 'The quick brown fox jumps over the lazy dog',
 			'subtitlingStyling.text' => 'Text',
 			'subtitlingStyling.border' => 'Border',
 			'subtitlingStyling.background' => 'Background',
@@ -7992,6 +8024,8 @@ extension on Translations {
 			'libraries.tabs.browse' => 'Browse',
 			'libraries.tabs.collections' => 'Collections',
 			'libraries.tabs.playlists' => 'Playlists',
+			_ => null,
+		} ?? switch (path) {
 			'libraries.groupings.title' => 'Grouping',
 			'libraries.groupings.all' => 'All',
 			'libraries.groupings.movies' => 'Movies',
@@ -8000,8 +8034,6 @@ extension on Translations {
 			'libraries.groupings.episodes' => 'Episodes',
 			'libraries.groupings.artists' => 'Artists',
 			'libraries.groupings.albums' => 'Albums',
-			_ => null,
-		} ?? switch (path) {
 			'libraries.groupings.tracks' => 'Tracks',
 			'libraries.groupings.folders' => 'Folders',
 			'libraries.filterCategories.genre' => 'Genre',
@@ -8506,6 +8538,8 @@ extension on Translations {
 			'downloads.deleteAll' => 'Delete all',
 			'downloads.selectVersion' => 'Select Version',
 			'downloads.allEpisodes' => 'All episodes',
+			_ => null,
+		} ?? switch (path) {
 			'downloads.unwatchedOnly' => 'Unwatched only',
 			'downloads.nextNUnwatched' => ({required Object count}) => 'Next ${count} unwatched',
 			'downloads.customAmount' => 'Custom amount...',
@@ -8514,8 +8548,6 @@ extension on Translations {
 			'downloads.invalidEpisodeCount' => 'Enter a valid episode count.',
 			'downloads.keepSynced' => 'Keep synced',
 			'downloads.downloadOnce' => 'Download once',
-			_ => null,
-		} ?? switch (path) {
 			'downloads.keepNUnwatched' => ({required Object count}) => 'Keep ${count} unwatched',
 			'downloads.editSyncRule' => 'Edit sync rule',
 			'downloads.removeSyncRule' => 'Remove sync rule',

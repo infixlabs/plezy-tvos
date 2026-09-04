@@ -3,6 +3,8 @@ import '../media/ids.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
+import '../services/subtitle_auto_download.dart';
 import 'package:plezy/widgets/app_icon.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:flutter/services.dart';

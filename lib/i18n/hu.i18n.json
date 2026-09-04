@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Zene minősége",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Feliratok stílusa",
     "subtitleStylingDescription": "Feliratok megjelenésének testreszabása",
     "smallSkipDuration": "Kis ugrás időtartama",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Nincsenek elérhető audioeszközök",
     "searchSubtitles": "Feliratok keresése",
     "language": "Nyelv",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Nem találhatók feliratok",
     "subtitleDownloaded": "Felirat letöltve",
     "subtitleDownloadedNotApplied": "Felirat letöltve, de nem sikerült kiválasztani",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Az aktív profilhoz nem érhető el szerver"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Szöveg",
     "border": "Keret",
     "background": "Háttér",

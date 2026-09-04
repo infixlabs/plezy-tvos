@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "音楽の音質",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "字幕スタイル",
     "subtitleStylingDescription": "字幕の外観をカスタマイズ",
     "smallSkipDuration": "短いスキップ時間",
@@ -730,6 +736,7 @@
     "noAudioDevicesAvailable": "オーディオデバイスがありません",
     "searchSubtitles": "字幕を検索",
     "language": "言語",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "字幕が見つかりません",
     "subtitleDownloaded": "字幕をダウンロードしました",
     "subtitleDownloadedNotApplied": "字幕はダウンロードされましたが、選択できませんでした",
@@ -812,6 +819,7 @@
     "serverUnavailableForProfile": "現在のプロフィールで利用可能なサーバーがありません"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "テキスト",
     "border": "枠線",
     "background": "背景",

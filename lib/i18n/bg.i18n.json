@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Качество на музиката",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Стил на субтитрите",
     "subtitleStylingDescription": "Настройване на вида на субтитрите",
     "smallSkipDuration": "Малко прескачане",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Няма налични аудио устройства",
     "searchSubtitles": "Търсене на субтитри",
     "language": "Език",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Не са намерени субтитри",
     "subtitleDownloaded": "Субтитърът е изтеглен",
     "subtitleDownloadedNotApplied": "Субтитрите са изтеглени, но не можаха да бъдат избрани",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Няма наличен сървър за активния профил"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Текст",
     "border": "Контур",
     "background": "Фон",

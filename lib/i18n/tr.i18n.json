@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Müzik Kalitesi",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Altyazı Biçimlendirmesi",
     "subtitleStylingDescription": "Altyazı görünümünü özelleştirin",
     "smallSkipDuration": "Küçük Atlama Süresi",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Kullanılabilir ses cihazı yok",
     "searchSubtitles": "Altyazı Ara",
     "language": "Dil",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Altyazı bulunamadı",
     "subtitleDownloaded": "Altyazı indirildi",
     "subtitleDownloadedNotApplied": "Altyazı indirildi ancak seçilemedi",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Etkin profil için kullanılabilir sunucu yok"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Metin",
     "border": "Kenarlık",
     "background": "Arka Plan",

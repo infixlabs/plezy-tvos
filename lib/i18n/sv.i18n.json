@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Musikkvalitet",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Utseende för undertexter",
     "subtitleStylingDescription": "Anpassa undertexternas utseende",
     "smallSkipDuration": "Litet hoppsteg",
@@ -733,6 +739,7 @@
     "noAudioDevicesAvailable": "Inga ljudenheter tillgängliga",
     "searchSubtitles": "Sök undertexter",
     "language": "Språk",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Inga undertexter hittades",
     "subtitleDownloaded": "Undertexten har laddats ned",
     "subtitleDownloadedNotApplied": "Undertexten laddades ned men kunde inte väljas",
@@ -816,6 +823,7 @@
     "serverUnavailableForProfile": "Ingen server är tillgänglig för den aktiva profilen"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Text",
     "border": "Kantlinje",
     "background": "Bakgrund",

@@ -201,6 +201,12 @@
     "directPlayCoveredQuality": "",
     "directPlayCoveredQualityDescription": "",
     "musicQualityTitle": "Jakość muzyki",
+    "forceSubtitles": "",
+    "forceSubtitlesDescription": "",
+    "preferredSubtitleLanguage": "",
+    "preferredSubtitleLanguageNotSet": "",
+    "autoDownloadSubtitles": "",
+    "autoDownloadSubtitlesDescription": "",
     "subtitleStyling": "Styl napisów",
     "subtitleStylingDescription": "Dostosuj wygląd napisów",
     "smallSkipDuration": "Krótki skok",
@@ -739,6 +745,7 @@
     "noAudioDevicesAvailable": "Brak dostępnych urządzeń audio",
     "searchSubtitles": "Szukaj napisów",
     "language": "Język",
+    "fetchingSubtitles": "",
     "noSubtitlesFound": "Nie znaleziono napisów",
     "subtitleDownloaded": "Napisy pobrane",
     "subtitleDownloadedNotApplied": "Napisy zostały pobrane, ale nie można ich było wybrać",
@@ -824,6 +831,7 @@
     "serverUnavailableForProfile": "Brak dostępnego serwera dla aktywnego profilu"
   },
   "subtitlingStyling": {
+    "previewSample": "",
     "text": "Tekst",
     "border": "Obramowanie",
     "background": "Tło",
