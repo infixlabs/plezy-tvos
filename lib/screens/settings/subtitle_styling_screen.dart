@@ -35,6 +35,9 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
   void dispose() {
     _preview?.remove();
     _preview = null;
+    // A dialog still open when the screen goes away would never fire its own
+    // end signal.
+    clearSubtitleStylePreviewOverrides();
     super.dispose();
   }
 
@@ -113,6 +116,8 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
               ),
             SettingNumberTile(
               pref: SettingsService.subtitleFontSize,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleFontSize.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleFontSize.key, null),
               icon: Symbols.format_size_rounded,
               title: t.subtitlingStyling.fontSize,
               subtitleBuilder: (v) => '$v',
@@ -123,11 +128,15 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
             ),
             SettingColorTile(
               pref: SettingsService.subtitleTextColor,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleTextColor.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleTextColor.key, null),
               icon: Symbols.format_color_text_rounded,
               title: t.subtitlingStyling.textColor,
             ),
             SettingNumberTile(
               pref: SettingsService.subtitlePosition,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitlePosition.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitlePosition.key, null),
               icon: Symbols.vertical_align_bottom_rounded,
               title: t.subtitlingStyling.position,
               subtitleBuilder: _formatPosition,
@@ -161,6 +170,8 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
           children: [
             SettingNumberTile(
               pref: SettingsService.subtitleBorderSize,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleBorderSize.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleBorderSize.key, null),
               icon: Symbols.border_style_rounded,
               title: t.subtitlingStyling.borderSize,
               subtitleBuilder: (v) => '$v',
@@ -171,6 +182,8 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
             ),
             SettingColorTile(
               pref: SettingsService.subtitleBorderColor,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleBorderColor.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleBorderColor.key, null),
               icon: Symbols.border_color_rounded,
               title: t.subtitlingStyling.borderColor,
             ),
@@ -182,6 +195,8 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
           children: [
             SettingNumberTile(
               pref: SettingsService.subtitleBackgroundOpacity,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleBackgroundOpacity.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleBackgroundOpacity.key, null),
               icon: Symbols.opacity_rounded,
               title: t.subtitlingStyling.backgroundOpacity,
               subtitleBuilder: (v) => '$v%',
@@ -192,6 +207,8 @@ class _SubtitleStylingScreenState extends State<SubtitleStylingScreen> {
             ),
             SettingColorTile(
               pref: SettingsService.subtitleBackgroundColor,
+              onPreview: (v) => setSubtitleStylePreviewOverride(SettingsService.subtitleBackgroundColor.key, v),
+              onPreviewEnd: () => setSubtitleStylePreviewOverride(SettingsService.subtitleBackgroundColor.key, null),
               icon: Symbols.format_color_fill_rounded,
               title: t.subtitlingStyling.backgroundColor,
             ),

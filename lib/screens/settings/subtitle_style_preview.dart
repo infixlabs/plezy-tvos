@@ -5,6 +5,32 @@ import '../../services/settings_service.dart';
 import '../../widgets/settings_builder.dart';
 import 'settings_utils.dart';
 
+/// Provisional styling values published by an open settings dialog, keyed by
+/// pref key.
+///
+/// A dialog does not write its pref until Save, so without this the preview
+/// would sit unchanged through the whole adjustment and only catch up once the
+/// dialog closed - the one stretch where seeing the result actually matters.
+/// Entries are cleared when the dialog goes away, so a cancelled edit leaves
+/// nothing behind.
+final ValueNotifier<Map<String, Object?>> subtitleStylePreviewOverrides = ValueNotifier(const {});
+
+void clearSubtitleStylePreviewOverrides() {
+  if (subtitleStylePreviewOverrides.value.isEmpty) return;
+  subtitleStylePreviewOverrides.value = const {};
+}
+
+void setSubtitleStylePreviewOverride(String key, Object? value) {
+  final next = Map<String, Object?>.from(subtitleStylePreviewOverrides.value);
+  if (value == null) {
+    if (next.remove(key) == null) return;
+  } else {
+    if (next[key] == value) return;
+    next[key] = value;
+  }
+  subtitleStylePreviewOverrides.value = next;
+}
+
 /// Live sample of the current subtitle styling, so the knobs below it can be
 /// judged by eye instead of by number.
 ///
@@ -46,65 +72,75 @@ class SubtitleStylePreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return SettingsBuilder(
       prefs: watchedPrefs,
-      builder: (context) {
-        final settings = SettingsService.instance;
-        final scale = 1 / _referenceHeight;
-        final fontSize = settings.read(SettingsService.subtitleFontSize) * scale;
-        final borderSize = settings.read(SettingsService.subtitleBorderSize) * scale;
-        final textColor = hexToColor(settings.read(SettingsService.subtitleTextColor));
-        final borderColor = hexToColor(settings.read(SettingsService.subtitleBorderColor));
-        final backgroundOpacity = settings.read(SettingsService.subtitleBackgroundOpacity) / 100;
-        final backgroundColor = hexToColor(
-          settings.read(SettingsService.subtitleBackgroundColor),
-        ).withValues(alpha: backgroundOpacity);
-        final bold = settings.read(SettingsService.subtitleBold);
-        final italic = settings.read(SettingsService.subtitleItalic);
-        // 0 % is the top of the frame, 100 % the bottom — the same reading as
-        // the position tile's own labels.
-        final position = settings.read(SettingsService.subtitlePosition) / 100;
+      builder: (context) => ValueListenableBuilder<Map<String, Object?>>(
+        valueListenable: subtitleStylePreviewOverrides,
+        builder: (context, overrides, _) => _build(context, overrides),
+      ),
+    );
+  }
 
-        return SizedBox(
-          height: height,
-          child: Padding(
-            padding: padding,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              // Height-driven rather than width-driven: floating in a corner,
-              // height is the scarce dimension and the 16:9 frame is sized from
-              // it instead of from the page width.
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: LayoutBuilder(
-                  builder: (context, constraints) => Stack(
-                    fit: .expand,
-                    children: [
-                      const _PreviewBackdrop(),
-                      Align(
-                        // -1 is the top edge, 1 the bottom: the same 0-100 range
-                        // mapped onto Alignment's own axis.
-                        alignment: Alignment(0, position * 2 - 1),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: constraints.maxHeight * 0.04),
-                          child: _SampleLine(
-                            text: t.subtitlingStyling.previewSample,
-                            fontSize: fontSize * constraints.maxHeight,
-                            borderSize: borderSize * constraints.maxHeight,
-                            textColor: textColor,
-                            borderColor: borderColor,
-                            backgroundColor: backgroundColor,
-                            bold: bold,
-                            italic: italic,
-                          ),
-                        ),
+  Widget _build(BuildContext context, Map<String, Object?> overrides) {
+    final settings = SettingsService.instance;
+    T read<T>(Pref<T> pref) {
+      final override = overrides[pref.key];
+      return override is T ? override : settings.read(pref);
+    }
+
+    final scale = 1 / _referenceHeight;
+    final fontSize = read(SettingsService.subtitleFontSize) * scale;
+    final borderSize = read(SettingsService.subtitleBorderSize) * scale;
+    final textColor = hexToColor(read(SettingsService.subtitleTextColor));
+    final borderColor = hexToColor(read(SettingsService.subtitleBorderColor));
+    final backgroundOpacity = read(SettingsService.subtitleBackgroundOpacity) / 100;
+    final backgroundColor = hexToColor(
+      read(SettingsService.subtitleBackgroundColor),
+    ).withValues(alpha: backgroundOpacity);
+    final bold = read(SettingsService.subtitleBold);
+    final italic = read(SettingsService.subtitleItalic);
+    // 0 % is the top of the frame, 100 % the bottom — the same reading as
+    // the position tile's own labels.
+    final position = read(SettingsService.subtitlePosition) / 100;
+
+    return SizedBox(
+      height: height,
+      child: Padding(
+        padding: padding,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          // Height-driven rather than width-driven: floating in a corner,
+          // height is the scarce dimension and the 16:9 frame is sized from
+          // it instead of from the page width.
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: LayoutBuilder(
+              builder: (context, constraints) => Stack(
+                fit: .expand,
+                children: [
+                  const _PreviewBackdrop(),
+                  Align(
+                    // -1 is the top edge, 1 the bottom: the same 0-100 range
+                    // mapped onto Alignment's own axis.
+                    alignment: Alignment(0, position * 2 - 1),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: constraints.maxHeight * 0.04),
+                      child: _SampleLine(
+                        text: t.subtitlingStyling.previewSample,
+                        fontSize: fontSize * constraints.maxHeight,
+                        borderSize: borderSize * constraints.maxHeight,
+                        textColor: textColor,
+                        borderColor: borderColor,
+                        backgroundColor: backgroundColor,
+                        bold: bold,
+                        italic: italic,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
