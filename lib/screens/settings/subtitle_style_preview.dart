@@ -13,7 +13,13 @@ import 'settings_utils.dart';
 /// mpv relative to a 720-high window, so both are scaled by this widget's own
 /// height to keep the sample proportionate to what plays back.
 class SubtitleStylePreview extends StatelessWidget {
-  const SubtitleStylePreview({super.key});
+  const SubtitleStylePreview({super.key, this.height = defaultHeight});
+
+  /// Tall enough to judge outline weight and background opacity, short enough
+  /// that pinning it still leaves the options below it readable on a phone.
+  static const double defaultHeight = 180;
+
+  final double height;
 
   /// mpv sizes `sub-font-size` and `sub-border-size` against a 720-high window.
   static const double _referenceHeight = 720;
@@ -51,36 +57,42 @@ class SubtitleStylePreview extends StatelessWidget {
         // the position tile's own labels.
         final position = settings.read(SettingsService.subtitlePosition) / 100;
 
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: LayoutBuilder(
-                builder: (context, constraints) => Stack(
-                  fit: .expand,
-                  children: [
-                    const _PreviewBackdrop(),
-                    Align(
-                      // -1 is the top edge, 1 the bottom: the same 0-100 range
-                      // mapped onto Alignment's own axis.
-                      alignment: Alignment(0, position * 2 - 1),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: constraints.maxHeight * 0.04),
-                        child: _SampleLine(
-                          text: t.subtitlingStyling.previewSample,
-                          fontSize: fontSize * constraints.maxHeight,
-                          borderSize: borderSize * constraints.maxHeight,
-                          textColor: textColor,
-                          borderColor: borderColor,
-                          backgroundColor: backgroundColor,
-                          bold: bold,
-                          italic: italic,
+        return SizedBox(
+          height: height,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              // Height-driven rather than width-driven: the preview is pinned, so
+              // its height is the scarce dimension and the 16:9 frame is sized
+              // from it instead of from the page width.
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Stack(
+                    fit: .expand,
+                    children: [
+                      const _PreviewBackdrop(),
+                      Align(
+                        // -1 is the top edge, 1 the bottom: the same 0-100 range
+                        // mapped onto Alignment's own axis.
+                        alignment: Alignment(0, position * 2 - 1),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: constraints.maxHeight * 0.04),
+                          child: _SampleLine(
+                            text: t.subtitlingStyling.previewSample,
+                            fontSize: fontSize * constraints.maxHeight,
+                            borderSize: borderSize * constraints.maxHeight,
+                            textColor: textColor,
+                            borderColor: borderColor,
+                            backgroundColor: backgroundColor,
+                            bold: bold,
+                            italic: italic,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -89,6 +101,34 @@ class SubtitleStylePreview extends StatelessWidget {
       },
     );
   }
+}
+
+/// Keeps the preview on screen while the options that change it scroll past.
+/// Judging a colour or an outline against a sample you have scrolled away from
+/// is exactly the problem the preview exists to remove.
+class SubtitleStylePreviewHeader extends SliverPersistentHeaderDelegate {
+  const SubtitleStylePreviewHeader({this.height = SubtitleStylePreview.defaultHeight});
+
+  final double height;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // Opaque: rows scroll underneath, and a translucent header would let their
+    // text read as part of the sample.
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SubtitleStylePreview(height: height),
+    );
+  }
+
+  @override
+  bool shouldRebuild(SubtitleStylePreviewHeader oldDelegate) => oldDelegate.height != height;
 }
 
 /// Stands in for video. Deliberately not flat: a subtitle that disappears over
