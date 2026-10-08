@@ -45,6 +45,12 @@ class PlaybackSubtitleSelection {
   final PlaybackSubtitleSidecar? secondarySidecar;
   final List<PlaybackSubtitleSidecar> preloadedSidecars;
 
+  /// The primary track came from the always-on fallback rather than from the
+  /// viewer or the server, so it must not cross an item boundary: a carried
+  /// selection matches at navigation priority on the next item and is
+  /// persisted to the server as an explicit choice. Each item derives its own.
+  final bool isForcedFallback;
+
   /// The primary preference the resolver could not serve when this selection
   /// is off. Distinguishes "the carried choice declined and the ladder fell
   /// through" from a deliberate off (#1785): the open flow hands the declined
@@ -62,10 +68,12 @@ class PlaybackSubtitleSelection {
     this.secondarySidecar,
     this.preloadedSidecars = const [],
     this.declinedPreference,
+    this.isForcedFallback = false,
   });
 
   const PlaybackSubtitleSelection.off({this.preloadedSidecars = const [], this.declinedPreference})
-    : primaryTrack = SubtitleTrack.off,
+    : isForcedFallback = false,
+      primaryTrack = SubtitleTrack.off,
       primarySourceStreamId = null,
       primarySidecar = null,
       secondaryTrack = null,
@@ -258,6 +266,7 @@ class PlaybackSubtitleResolver {
       secondarySourceStreamId: secondaryCandidate?.sourceStreamId,
       secondarySidecar: secondaryCandidate?.sidecar,
       preloadedSidecars: preloadedSidecars,
+      isForcedFallback: primaryResult?.forcedFallback ?? false,
     );
   }
 

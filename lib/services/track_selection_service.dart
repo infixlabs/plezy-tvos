@@ -678,7 +678,14 @@ class TrackSelectionResult<T> {
   final T track;
   final TrackSelectionPriority priority;
 
-  const TrackSelectionResult(this.track, this.priority);
+  /// This track was supplied by the always-on fallback, not chosen by the
+  /// viewer or the server. It must not be carried across an item boundary:
+  /// a carried selection matches at [TrackSelectionPriority.navigation] on the
+  /// next item, which persists it to the server as if the viewer had picked
+  /// it. Each item derives its own fallback instead.
+  final bool forcedFallback;
+
+  const TrackSelectionResult(this.track, this.priority, {this.forcedFallback = false});
 }
 
 /// Service for selecting and applying audio and subtitle tracks based on
@@ -827,7 +834,7 @@ class TrackSelectionService {
 
     final selected =
         preferred ?? _findDefaultSubtitleTrack(fullDialogue) ?? fullDialogue.firstOrNull ?? availableTracks.first;
-    return TrackSelectionResult(selected, TrackSelectionPriority.profile);
+    return TrackSelectionResult(selected, TrackSelectionPriority.profile, forcedFallback: true);
   }
 
   SubtitleTrack? _findForcedSubtitleTrack(List<SubtitleTrack> availableTracks) {

@@ -143,6 +143,16 @@ extension _PlexVideoControlsNavigationMethods on _PlexVideoControlsState {
         return;
       }
 
+      // The viewer may have turned subtitles off while the server was
+      // fetching. Applying now would switch them back on and - because the
+      // apply path writes the stream selection - persist that to the server
+      // as their choice. Their decision is newer than this request.
+      if (_subtitlesTurnedOffByViewer()) {
+        appLogger.d('Automatic subtitle download abandoned: subtitles were switched off during the fetch');
+        widget.toastController.hide();
+        return;
+      }
+
       final outcome = await _onSubtitleDownloaded(serverId: serverId, ratingKey: ratingKey);
       if (!mounted) return;
       // Success needs no pill: the subtitles themselves are the confirmation,
@@ -158,6 +168,13 @@ extension _PlexVideoControlsNavigationMethods on _PlexVideoControlsState {
       // Clear the spinner: its own timeout is a safety net, not a result.
       if (mounted) widget.toastController.show(Symbols.subtitles_off_rounded, t.videoControls.noSubtitlesFound);
     }
+  }
+
+  /// Whether the live player is showing no subtitle. Read straight off the
+  /// player rather than from a carried preference, so any route that turned
+  /// them off counts.
+  bool _subtitlesTurnedOffByViewer() {
+    return widget.player.state.track.subtitle?.id == SubtitleTrack.off.id;
   }
 
   Future<SubtitleDownloadApplyOutcome> _onSubtitleDownloaded({

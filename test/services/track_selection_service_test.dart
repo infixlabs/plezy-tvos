@@ -1498,6 +1498,24 @@ void main() {
       expect(result?.priority, TrackSelectionPriority.navigation);
     });
 
+    test('a forced pick is flagged so it cannot be carried to the next item', () {
+      // A carried selection matches at navigation priority on the next item,
+      // which persists it to the server as an explicit choice. The fallback is
+      // not a choice, so it must be identifiable as one that cannot carry.
+      final result = _svc(
+        info: info,
+        forceSubtitles: true,
+        forcedSubtitleLanguage: 'eng',
+      ).selectSubtitleTrack(tracks, null, null);
+      expect(result?.forcedFallback, isTrue);
+    });
+
+    test('a real selection is not flagged as a forced fallback', () {
+      final result = _svc(info: info).selectSubtitleTrack(tracks, SubtitlePreference.track(english), null);
+      expect(result?.priority, TrackSelectionPriority.navigation);
+      expect(result?.forcedFallback, isFalse);
+    });
+
     test('no tracks at all still resolves to off', () {
       final result = _svc(
         forceSubtitles: true,
